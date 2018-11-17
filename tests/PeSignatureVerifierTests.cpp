@@ -46,7 +46,6 @@ TEST_CASE("Try to check if current running exe is signed", "[GetModuleFileName]"
 	REQUIRE(lResult == false);
 }
 
-
 TEST_CASE("Try to scan file with invalid name", "[invalid]")
 {
 	bool lResult = PeSignatureVerifier::VerifySignature(L"INVALID_FILE_NAME");

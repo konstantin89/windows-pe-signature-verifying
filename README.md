@@ -1,4 +1,11 @@
 # windows-pe-signature-verifying
 
-//https://blogs.msdn.microsoft.com/winsdk/2013/08/07/using-winverifytrust-api-to-verify-the-embedded-signature-of-a-file-or-fall-back-to-catalog-signature-verification/
-//https://docs.microsoft.com/en-us/windows/desktop/seccrypto/certificate-and-trust-return-values
+## Brief
+Library that used to verify PE files signatures. 
+
+## Links
+[WinVerifyTrust](https://docs.microsoft.com/en-us/windows/desktop/api/wintrust/nf-wintrust-winverifytrust)
+[Certificate and Trust return values](https://docs.microsoft.com/en-us/windows/desktop/seccrypto/certificate-and-trust-return-values)
+[Windows 8 and 10 signature hash algorithm](https://stackoverflow.com/questions/26216789/getting-digital-signature-from-mmc-exe-at-windows-8)
+
+
