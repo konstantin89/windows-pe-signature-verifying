@@ -18,6 +18,11 @@ public:
 	/**
 	* @returns: true iff the PE's signature is verified, false othervise.
 	*/
+	static DWORD GetSignatureStatus(std::wstring aPePath);
+
+	/**
+	* @returns: true iff the PE's signature is verified, false othervise.
+	*/
 	static bool VerifySignature(std::wstring aPePath);
 
 private:
