@@ -4,27 +4,26 @@
 
 #define SHA256 L"SHA256"
 
-bool PeSignatureVerifier::VerifySignature(std::wstring aPePath)
+DWORD PeSignatureVerifier::GetSignatureStatus(std::wstring aPePath)
 {
 	// Try to find embeeded signature in the given PE.
 	if (verifyFromFile(aPePath) == ERROR_SUCCESS)
 	{
-		return true;
+		return ERROR_SUCCESS;
 	}
 
-	// Calculate the hash for the given PE and look for in in Windows catalogs.
-	if (verifyFromCatalog(aPePath, SHA256) == ERROR_SUCCESS)
-	{
-		return true;
-	}
+	// Calculate the hash for the given PE and look for in Windows catalogs.
+	return verifyFromCatalog(aPePath, SHA256);
+}
 
-	return false;
+bool PeSignatureVerifier::VerifySignature(std::wstring aPePath)
+{
+	return (GetSignatureStatus(aPePath) == ERROR_SUCCESS);
 }
 
 
 DWORD PeSignatureVerifier::verifyFromFile(std::wstring aPePath)
 {
-	LONG lStatus;
 	GUID WintrustVerifyGuid = WINTRUST_ACTION_GENERIC_VERIFY_V2;
 	GUID DriverActionGuid = DRIVER_ACTION_VERIFY;
 
@@ -53,9 +52,7 @@ DWORD PeSignatureVerifier::verifyFromFile(std::wstring aPePath)
 	wd.pSIPClientData = NULL;
 	wd.dwUIContext = 0;
 
-	lStatus = WinVerifyTrust(NULL, &WintrustVerifyGuid, &wd);
-
-	return lStatus;
+	return WinVerifyTrust(NULL, &WintrustVerifyGuid, &wd);
 }
 
 DWORD PeSignatureVerifier::verifyFromCatalog(
