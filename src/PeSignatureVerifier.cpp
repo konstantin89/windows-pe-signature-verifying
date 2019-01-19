@@ -16,7 +16,7 @@ DWORD PeSignatureVerifier::GetSignatureStatus(std::wstring aPePath)
 	return verifyFromCatalog(aPePath, SHA256);
 }
 
-bool PeSignatureVerifier::VerifySignature(std::wstring aPePath)
+bool PeSignatureVerifier::IsSignatureVerified(std::wstring aPePath)
 {
 	return (GetSignatureStatus(aPePath) == ERROR_SUCCESS);
 }
