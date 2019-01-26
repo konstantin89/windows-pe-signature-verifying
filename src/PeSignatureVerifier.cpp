@@ -1,10 +1,11 @@
 #include "PeSignatureVerifier.h"
+#include "CryptoApiWrapper.h"
 
 #pragma comment(lib, "wintrust")
 
 #define SHA256 L"SHA256"
 
-DWORD PeSignatureVerifier::GetSignatureStatus(std::wstring aPePath)
+DWORD PeSignatureVerifier::CheckFileSignature(std::wstring aPePath)
 {
 	// Try to find embeeded signature in the given PE.
 	if (verifyFromFile(aPePath) == ERROR_SUCCESS)
@@ -15,12 +16,6 @@ DWORD PeSignatureVerifier::GetSignatureStatus(std::wstring aPePath)
 	// Calculate the hash for the given PE and look for in Windows catalogs.
 	return verifyFromCatalog(aPePath, SHA256);
 }
-
-bool PeSignatureVerifier::IsSignatureVerified(std::wstring aPePath)
-{
-	return (GetSignatureStatus(aPePath) == ERROR_SUCCESS);
-}
-
 
 DWORD PeSignatureVerifier::verifyFromFile(std::wstring aPePath)
 {
@@ -181,4 +176,13 @@ std::wstring PeSignatureVerifier::byteHashIntoWstring(BYTE* aHash, size_t aHashL
 	delete[] lHashString;
 
 	return lHashWstr;
+}
+
+DWORD PeSignatureVerifier::GetCertificateInfo(
+	std::wstring aPePath,
+	CertificateInfo& aCertificateInfo)
+{
+
+
+	return ERROR_SUCCESS;
 }

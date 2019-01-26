@@ -18,6 +18,9 @@
     <ClCompile Include="tests\PeSignatureVerifierTests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
+    <ClCompile Include="src\CryptoApiWrapper.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PeSignatureVerifier.h">
@@ -25,6 +28,12 @@
     </ClInclude>
     <ClInclude Include="tests\catch.hpp">
       <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CryptoApiWrapper.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CertificateInfo.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

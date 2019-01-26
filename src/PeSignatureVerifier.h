@@ -11,19 +11,24 @@
 #include <iostream>
 #include <memory>
 
+#include "CertificateInfo.h"
+
 class PeSignatureVerifier
 {
 public:
 
 	/**
+	* @brief: Check if the given file is signed with valid certificate.
 	* @returns: ERROR_SUCCESS iff the PE's signature is verified, othervise returns error code.
 	*/
-	static DWORD GetSignatureStatus(std::wstring aPePath);
+	static DWORD CheckFileSignature(std::wstring aPePath);
 
 	/**
-	* @returns: true iff the PE's signature is verified, false othervise.
+	*
 	*/
-	static bool IsSignatureVerified(std::wstring aPePath);
+	static DWORD GetCertificateInfo(
+		std::wstring aPePath, 
+		CertificateInfo& aCertificateInfo);
 
 private:
 
