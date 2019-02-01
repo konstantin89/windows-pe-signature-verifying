@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{7895877e-5f96-40c0-b7a4-c2258765e152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{0f6ef575-2bdb-49b2-acc2-1573824c3e01}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\CertificateInfo.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CryptoApiWrapper.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PeSignatureVerifier.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\catch.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\CryptoApiWrapper.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PeSignatureVerifier.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\PeSignatureVerifierTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
