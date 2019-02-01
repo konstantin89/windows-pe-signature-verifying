@@ -89,7 +89,7 @@ DWORD CryptoApiWrapper::getCertificateContext(
 
 DWORD CryptoApiWrapper::GetCertificateInfo(
 	std::wstring aFileName,
-	std::shared_ptr<CertificateInfo> aCertInfo)
+	std::shared_ptr<CertificateInfo> &aCertInfo)
 {
 
 	DWORD lRetVal = ERROR_SUCCESS;
@@ -179,7 +179,7 @@ DWORD CryptoApiWrapper::getSignatureAlgoWstring(
 	CRYPT_ALGORITHM_IDENTIFIER* pSigAlgo, 
 	std::wstring &signatureAlgo)
 {
-	if (!pSigAlgo || pSigAlgo->pszObjId)
+	if (!pSigAlgo || !pSigAlgo->pszObjId)
 	{
 		return ERROR_INVALID_PARAMETER;
 	}

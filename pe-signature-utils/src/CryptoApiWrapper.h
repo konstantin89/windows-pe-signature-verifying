@@ -15,7 +15,7 @@ class CryptoApiWrapper
 public:
 	static DWORD GetCertificateInfo(
 		std::wstring aFileName,
-		std::shared_ptr<CertificateInfo> aCertInfo);
+		std::shared_ptr<CertificateInfo> &aCertInfo);
 
 private:
 
