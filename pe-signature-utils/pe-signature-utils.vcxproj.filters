@@ -19,12 +19,18 @@
     <ClInclude Include="src\PeSignatureVerifier.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\TimestampCertificateInfo.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CryptoApiWrapper.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\PeSignatureVerifier.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CertificateInfo.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

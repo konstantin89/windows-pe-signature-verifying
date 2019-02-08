@@ -30,6 +30,14 @@ public:
 		std::wstring aPePath, 
 		CertificateInfo& aCertificateInfo);
 
+	/**
+	*
+	*/
+	static DWORD CalculateFileHash(
+		std::wstring aFileName,
+		std::wstring aHashType,
+		std::wstring& aHashWstr);
+
 private:
 
 	/**

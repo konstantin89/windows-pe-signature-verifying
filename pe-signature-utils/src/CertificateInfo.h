@@ -3,11 +3,19 @@
 
 #include <string>
 
-struct CertificateInfo
+class CertificateInfo
 {
+
+public:
+	CertificateInfo();
+	~CertificateInfo();
+	void printCertificateInfo();
+
+public:
 	std::wstring subjectName;
 	std::wstring issuerName;
 	std::wstring signAlgorithm;
+
 };
 
 #endif
