@@ -10,9 +10,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CertificateInfo.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\CryptoApiWrapper.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -20,6 +17,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\TimestampCertificateInfo.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CertificateInfoBase.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SignerInfo.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
@@ -30,7 +33,7 @@
     <ClCompile Include="src\PeSignatureVerifier.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CertificateInfo.cpp">
+    <ClCompile Include="src\TimestampCertificateInfo.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

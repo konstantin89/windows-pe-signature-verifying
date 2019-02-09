@@ -11,7 +11,7 @@
 #include <iostream>
 #include <memory>
 
-#include "CertificateInfo.h"
+#include "SignerInfo.h"
 
 class PeSignatureVerifier
 {
@@ -28,7 +28,7 @@ public:
 	*/
 	static DWORD GetCertificateInfo(
 		std::wstring aPePath, 
-		CertificateInfo& aCertificateInfo);
+		SignerInfo& aCertificateInfo);
 
 	/**
 	*

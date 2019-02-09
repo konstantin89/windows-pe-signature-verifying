@@ -6,7 +6,7 @@
 #include <string>
 #include <memory>
 
-#include "CertificateInfo.h"
+#include "SignerInfo.h"
 #include "TimestampCertificateInfo.h"
 
 #pragma comment(lib, "crypt32.lib")
@@ -20,7 +20,7 @@ public:
 	*/
 	static DWORD GetCertificateInfo(
 		std::wstring aFileName,
-		std::shared_ptr<CertificateInfo> &aCertInfo);
+		std::shared_ptr<SignerInfo> &aCertInfo);
 
 	/**
 	*

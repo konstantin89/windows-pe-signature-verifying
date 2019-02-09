@@ -1,23 +1,20 @@
 #ifndef __TIMESTAMP_CERTIFICATE_INFO_H
 #define __TIMESTAMP_CERTIFICATE_INFO_H
 
-#include <string>
+#include "CertificateInfoBase.h"
 #include <memory>
 #include <Windows.h>
 
-class TimestampCertificateInfo {
+class TimestampCertificateInfo : public CertificateInfoBase
+{
 
 public:
-	std::wstring getTimeStampAsWstr();
-	void printTimestampCertificate();
+	TimestampCertificateInfo();
+	virtual ~TimestampCertificateInfo();
+	virtual void printCertificateInfo() override;
 
 
 public:
-
-	std::wstring serialNumber;
-	std::wstring subjectName;
-	std::wstring issuerName;
-	std::wstring signAlgorithm;
 	std::shared_ptr<SYSTEMTIME> dateOfTimeStamp;
 };
 

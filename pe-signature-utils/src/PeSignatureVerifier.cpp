@@ -238,7 +238,7 @@ std::wstring PeSignatureVerifier::byteHashIntoWstring(BYTE* aHash, size_t aHashL
 
 DWORD PeSignatureVerifier::GetCertificateInfo(
 	std::wstring aPePath,
-	CertificateInfo& aCertificateInfo)
+	SignerInfo &aCertificateInfo)
 {
 
 	UNREFERENCED_PARAMETER(aPePath);

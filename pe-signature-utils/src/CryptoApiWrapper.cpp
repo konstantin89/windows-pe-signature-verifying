@@ -9,7 +9,7 @@
 
 DWORD CryptoApiWrapper::GetCertificateInfo(
 	std::wstring aFileName,
-	std::shared_ptr<CertificateInfo> &aCertInfo)
+	std::shared_ptr<SignerInfo> &aCertInfo)
 {
 
 	DWORD lRetVal = ERROR_SUCCESS;
@@ -26,7 +26,7 @@ DWORD CryptoApiWrapper::GetCertificateInfo(
 		return GetLastError();
 	}
 
-	aCertInfo = std::make_shared<CertificateInfo>();
+	aCertInfo = std::make_shared<SignerInfo>();
 
 	std::wstring lSerialNumber;
 	lRetVal = getCertificateSerialNumber(lCertContextPtr, lSerialNumber);
