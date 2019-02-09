@@ -13,8 +13,8 @@ public:
 
 
 public:
-	//Serial Number
 
+	std::wstring serialNumber;
 	std::wstring subjectName;
 	std::wstring issuerName;
 	std::wstring signAlgorithm;

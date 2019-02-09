@@ -8,14 +8,14 @@ class CertificateInfo
 
 public:
 	CertificateInfo();
-	~CertificateInfo();
-	void printCertificateInfo();
+	virtual ~CertificateInfo();
+	virtual void printCertificateInfo();
 
 public:
 	std::wstring subjectName;
 	std::wstring issuerName;
 	std::wstring signAlgorithm;
-
+	std::wstring serialNumber;
 };
 
 #endif
