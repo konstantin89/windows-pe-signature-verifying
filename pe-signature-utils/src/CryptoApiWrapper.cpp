@@ -11,88 +11,146 @@ DWORD CryptoApiWrapper::GetCertificateInfo(
 	std::wstring aFileName,
 	std::shared_ptr<SignerInfo> &aCertInfo)
 {
-
+	HCERTSTORE lCertStore;
+	std::shared_ptr<CMSG_SIGNER_INFO> lSignerInfo;
 	DWORD lRetVal = ERROR_SUCCESS;
+	PCCERT_CONTEXT lCertContexPtr = NULL;
 
-	PCCERT_CONTEXT lCertContextPtr = NULL;
-
-	lRetVal = getCertificateContext(
-		aFileName, 
-		RequestedContexType::Signer, 
-		lCertContextPtr);
-
+	lRetVal = getSignerInfo(aFileName, lSignerInfo, lCertStore);
 	if (lRetVal != ERROR_SUCCESS)
 	{
-		return GetLastError();
+		return lRetVal;
+	}
+
+	lRetVal = getCertificateContext(lSignerInfo, lCertStore, lCertContexPtr);
+	if (lRetVal != ERROR_SUCCESS)
+	{
+		return lRetVal;
 	}
 
 	aCertInfo = std::make_shared<SignerInfo>();
 
 	std::wstring lSerialNumber;
-	lRetVal = getCertificateSerialNumber(lCertContextPtr, lSerialNumber);
+	lRetVal = getCertificateSerialNumber(lCertContexPtr, lSerialNumber);
 	if (lRetVal == ERROR_SUCCESS)
 	{
 		aCertInfo->serialNumber = lSerialNumber;
 	}
 
 	std::wstring lIssuerName;
-	lRetVal = queryCertificateInfo(lCertContextPtr, CERT_NAME_ISSUER_FLAG, lIssuerName);
+	lRetVal = queryCertificateInfo(lCertContexPtr, CERT_NAME_ISSUER_FLAG, lIssuerName);
 	if (lRetVal == ERROR_SUCCESS)
 	{
 		aCertInfo->issuerName = lIssuerName;
 	}
 
 	std::wstring lSubjectName;
-	lRetVal = queryCertificateInfo(lCertContextPtr, 0, lSubjectName);
+	lRetVal = queryCertificateInfo(lCertContexPtr, 0, lSubjectName);
 	if (lRetVal == ERROR_SUCCESS)
 	{
 		aCertInfo->subjectName = lSubjectName;
 	}
 
 	std::wstring lSignAlgorithm;
-	lRetVal = getSignatureAlgoWstring(&lCertContextPtr->pCertInfo->SignatureAlgorithm, lSignAlgorithm);
+	lRetVal = getSignatureAlgoWstring(&lCertContexPtr->pCertInfo->SignatureAlgorithm, lSignAlgorithm);
 	if (lRetVal == ERROR_SUCCESS)
 	{
 		aCertInfo->signAlgorithm = lSignAlgorithm;
 	}
 
-	if (lCertContextPtr)
+	if (lCertContexPtr)
 	{
-		CertFreeCertificateContext(lCertContextPtr);
+		CertFreeCertificateContext(lCertContexPtr);
 	}
 	
 	return ERROR_SUCCESS;
 }
 
 DWORD CryptoApiWrapper::GetTimestampCertificateInfo(
-	std::wstring aPePath,
-	std::shared_ptr <TimestampCertificateInfo> &aCertificateInfo)
+	std::wstring aFileName,
+	std::shared_ptr <TimestampCertificateInfo> &aCertInfo)
 {
-	UNREFERENCED_PARAMETER(aPePath);
-	UNREFERENCED_PARAMETER(aCertificateInfo);
+	HCERTSTORE lCertStore;
+	std::shared_ptr<CMSG_SIGNER_INFO> lSignerInfo;
+	std::shared_ptr<CMSG_SIGNER_INFO> lTimeStammpSignerInfo;
+	DWORD lRetVal = ERROR_SUCCESS;
+	PCCERT_CONTEXT lCertContexPtr = NULL;
+
+	lRetVal = getSignerInfo(aFileName, lSignerInfo, lCertStore);
+	if (lRetVal != ERROR_SUCCESS) 
+	{
+		return lRetVal;
+	}
+
+	lRetVal = getCertificateContext(lSignerInfo, lCertStore, lCertContexPtr);
+	if (lRetVal != ERROR_SUCCESS) 
+	{
+		return lRetVal;
+	}
+
+	lRetVal = getTimeStampSignerInfo(lSignerInfo, lTimeStammpSignerInfo);
+	if (lRetVal != ERROR_SUCCESS)
+	{
+		return lRetVal;
+	}
+
+	lRetVal = getCertificateContext(lTimeStammpSignerInfo, lCertStore, lCertContexPtr);
+	if (lRetVal != ERROR_SUCCESS)
+	{
+		return lRetVal;
+	}
+
+	aCertInfo = std::make_shared<TimestampCertificateInfo>();
+
+	std::wstring lSerialNumber;
+	lRetVal = getCertificateSerialNumber(lCertContexPtr, lSerialNumber);
+	if (lRetVal == ERROR_SUCCESS)
+	{
+		aCertInfo->serialNumber = lSerialNumber;
+	}
+
+	std::wstring lIssuerName;
+	lRetVal = queryCertificateInfo(lCertContexPtr, CERT_NAME_ISSUER_FLAG, lIssuerName);
+	if (lRetVal == ERROR_SUCCESS)
+	{
+		aCertInfo->issuerName = lIssuerName;
+	}
+
+	std::wstring lSubjectName;
+	lRetVal = queryCertificateInfo(lCertContexPtr, 0, lSubjectName);
+	if (lRetVal == ERROR_SUCCESS)
+	{
+		aCertInfo->subjectName = lSubjectName;
+	}
+
+	std::wstring lSignAlgorithm;
+	lRetVal = getSignatureAlgoWstring(&lCertContexPtr->pCertInfo->SignatureAlgorithm, lSignAlgorithm);
+	if (lRetVal == ERROR_SUCCESS)
+	{
+		aCertInfo->signAlgorithm = lSignAlgorithm;
+	}
+
+	if (lCertContexPtr)
+	{
+		CertFreeCertificateContext(lCertContexPtr);
+	}
 
 	return ERROR_SUCCESS;
 }
 
-
-DWORD CryptoApiWrapper::getCertificateContext(
+DWORD CryptoApiWrapper::getSignerInfo(
 	std::wstring aFileName,
-	RequestedContexType aRequestedContextType,
-	PCCERT_CONTEXT &aCertContextPtr)
+	std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo,
+	HCERTSTORE &aCertStore)
 {
 	BOOL lRetVal = TRUE;
-
 	DWORD lEncoding = 0;
 	DWORD lContentType = 0;
 	DWORD lFormatType = 0;
 	HCERTSTORE lStoreHandle = NULL;
 	HCRYPTMSG lCryptMsgHandle = NULL;
 
-	PCCERT_CONTEXT pCertContext = NULL;
 	CERT_INFO CertInfo = { 0 };
-
-	PCMSG_SIGNER_INFO lCounterSignerInfoPtr = NULL;
-
 
 	DWORD lSignerInfoSize = 0;
 
@@ -139,31 +197,26 @@ DWORD CryptoApiWrapper::getCertificateContext(
 		return GetLastError();
 	}
 
-	if (aRequestedContextType == RequestedContexType::Signer)
-	{
-		CertInfo.Issuer = lSignerInfoPtr->Issuer;
-		CertInfo.SerialNumber = lSignerInfoPtr->SerialNumber;
-	}
+	aSignerInfo = std::shared_ptr<CMSG_SIGNER_INFO>(lSignerInfoPtr);
+	aCertStore = lStoreHandle;
 
-	else if (aRequestedContextType == RequestedContexType::TimeStamp)
-	{
-		lRetVal = getTimeStampSignerInfo(lSignerInfoPtr, &lCounterSignerInfoPtr);
+	return ERROR_SUCCESS;
+}
 
-		if (lRetVal != ERROR_SUCCESS)
-		{
-			return lRetVal;
-		}
+DWORD CryptoApiWrapper::getCertificateContext(
+	std::shared_ptr<CMSG_SIGNER_INFO> aSignerInfo,
+	HCERTSTORE aCertStore,
+	PCCERT_CONTEXT &aCertContextPtr)
+{
 
-		CertInfo.Issuer = lCounterSignerInfoPtr->Issuer;
-		CertInfo.SerialNumber = lCounterSignerInfoPtr->SerialNumber;
-	}
+	PCCERT_CONTEXT pCertContext = NULL;
+	CERT_INFO CertInfo = { 0 };
 
-	else 
-	{
-		return ERROR_INVALID_PARAMETER;
-	}
-
-	pCertContext = CertFindCertificateInStore(lStoreHandle,
+	CertInfo.Issuer = aSignerInfo->Issuer;
+	CertInfo.SerialNumber = aSignerInfo->SerialNumber;
+	
+	pCertContext = CertFindCertificateInStore(
+		aCertStore,
 		ENCODING,
 		0,
 		CERT_FIND_SUBJECT_CERT,
@@ -172,13 +225,11 @@ DWORD CryptoApiWrapper::getCertificateContext(
 
 	if (!pCertContext)
 	{
-		delete lSignerInfoPtr;
 		return GetLastError();
 	}
 
 	aCertContextPtr = pCertContext;
 
-	delete lSignerInfoPtr;
 	return ERROR_SUCCESS;
 }
 
@@ -252,26 +303,26 @@ DWORD CryptoApiWrapper::getSignatureAlgoWstring(
 
 
 DWORD CryptoApiWrapper::getTimeStampSignerInfo(
-	PCMSG_SIGNER_INFO pSignerInfo, 
-	PCMSG_SIGNER_INFO *pCounterSignerInfo)
+	std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo,
+	std::shared_ptr<CMSG_SIGNER_INFO> &aCounterSignerInfo)
 {
 	BOOL fResult;
 	DWORD dwSize;
 
-	*pCounterSignerInfo = NULL;
+	PCMSG_SIGNER_INFO pCounterSignerInfo = NULL;
 
 	// Loop through unathenticated attributes for
 	// szOID_RSA_counterSign OID.
-	for (DWORD n = 0; n < pSignerInfo->UnauthAttrs.cAttr; n++)
+	for (DWORD n = 0; n < aSignerInfo->UnauthAttrs.cAttr; n++)
 	{
-		if (lstrcmpA(pSignerInfo->UnauthAttrs.rgAttr[n].pszObjId,
+		if (lstrcmpA(aSignerInfo->UnauthAttrs.rgAttr[n].pszObjId,
 			szOID_RSA_counterSign) == 0)
 		{
 			// Get size of CMSG_SIGNER_INFO structure.
 			fResult = CryptDecodeObject(ENCODING,
 				PKCS7_SIGNER_INFO,
-				pSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].pbData,
-				pSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].cbData,
+				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].pbData,
+				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].cbData,
 				0,
 				NULL,
 				&dwSize);
@@ -281,8 +332,8 @@ DWORD CryptoApiWrapper::getTimeStampSignerInfo(
 			}
 
 			// Allocate memory for CMSG_SIGNER_INFO.
-			*pCounterSignerInfo = (PCMSG_SIGNER_INFO)LocalAlloc(LPTR, dwSize);
-			if (!*pCounterSignerInfo)
+			pCounterSignerInfo = (PCMSG_SIGNER_INFO)LocalAlloc(LPTR, dwSize);
+			if (!pCounterSignerInfo)
 			{
 				return GetLastError();
 			}
@@ -291,10 +342,10 @@ DWORD CryptoApiWrapper::getTimeStampSignerInfo(
 			// for timestamp certificate.
 			fResult = CryptDecodeObject(ENCODING,
 				PKCS7_SIGNER_INFO,
-				pSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].pbData,
-				pSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].cbData,
+				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].pbData,
+				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].cbData,
 				0,
-				(PVOID)*pCounterSignerInfo,
+				(PVOID)pCounterSignerInfo,
 				&dwSize);
 			if (!fResult)
 			{
@@ -304,6 +355,9 @@ DWORD CryptoApiWrapper::getTimeStampSignerInfo(
 			break; // Break from for loop.
 		}
 	}
+	
+	aCounterSignerInfo = std::shared_ptr<CMSG_SIGNER_INFO>(pCounterSignerInfo);
+
 	return ERROR_SUCCESS;
 }
 

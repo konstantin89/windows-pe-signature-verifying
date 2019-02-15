@@ -26,12 +26,10 @@ public:
 	*
 	*/
 	static DWORD GetTimestampCertificateInfo(
-		std::wstring aPePath,
-		std::shared_ptr <TimestampCertificateInfo> &aCertificateInfo);
+		std::wstring aFileName,
+		std::shared_ptr <TimestampCertificateInfo> &aCertInfo);
 
 private:
-
-	enum RequestedContexType {Signer, TimeStamp};
 
 	static DWORD queryCertificateInfo(
 		PCCERT_CONTEXT aCertContext,
@@ -43,17 +41,22 @@ private:
 		std::wstring &signatureAlgo);
 
 	static DWORD getCertificateContext(
-		std::wstring aFileName,
-		RequestedContexType aRequestedContextType,
+		std::shared_ptr<CMSG_SIGNER_INFO> aSignerInfo,
+		HCERTSTORE aCertStore,
 		PCCERT_CONTEXT &aCertContextPtr);
 
 	static DWORD getTimeStampSignerInfo(
-		PCMSG_SIGNER_INFO pSignerInfo,
-		PCMSG_SIGNER_INFO *pCounterSignerInfo);
+		std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo,
+		std::shared_ptr<CMSG_SIGNER_INFO> &aCounterSignerInfo);
 
 	static DWORD getCertificateSerialNumber(
 		PCCERT_CONTEXT aCertContext, 
 		std::wstring &aSerialNumberWstr);
+
+	static DWORD getSignerInfo(
+		std::wstring aFileName,
+		std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo,
+		HCERTSTORE &aCertStore);
 
 };
 
