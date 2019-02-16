@@ -332,7 +332,7 @@ DWORD CryptoApiWrapper::getTimeStampSignerInfo(
 			}
 
 			// Allocate memory for CMSG_SIGNER_INFO.
-			pCounterSignerInfo = (PCMSG_SIGNER_INFO)LocalAlloc(LPTR, dwSize);
+			pCounterSignerInfo = (PCMSG_SIGNER_INFO) new BYTE[dwSize];
 			if (!pCounterSignerInfo)
 			{
 				return GetLastError();
