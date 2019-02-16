@@ -130,6 +130,13 @@ DWORD CryptoApiWrapper::GetTimestampCertificateInfo(
 		aCertInfo->signAlgorithm = lSignAlgorithm;
 	}
 
+	std::shared_ptr<SYSTEMTIME> lSysTime;
+	bool lBoolRetVal = getDateOfTimeStamp(lTimeStammpSignerInfo, lSysTime);
+	if (lBoolRetVal == true)
+	{
+		aCertInfo->dateOfTimeStamp = lSysTime;
+	}
+
 	if (lCertContexPtr)
 	{
 		CertFreeCertificateContext(lCertContexPtr);
@@ -389,4 +396,51 @@ DWORD CryptoApiWrapper::getCertificateSerialNumber(
 	}
 
 	return ERROR_SUCCESS;
+}
+
+
+bool CryptoApiWrapper::getDateOfTimeStamp(
+	std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo, 
+	std::shared_ptr<SYSTEMTIME> &aSysTime)
+{
+	FILETIME lft, ft;
+	DWORD dwData;
+	aSysTime = std::make_shared<SYSTEMTIME>();
+
+	DWORD lRetVal = false;
+
+	// Loop through authenticated attributes and find
+	// szOID_RSA_signingTime OID.
+	for (DWORD n = 0; n < aSignerInfo->AuthAttrs.cAttr; n++)
+	{
+		if (lstrcmpA(szOID_RSA_signingTime,
+			aSignerInfo->AuthAttrs.rgAttr[n].pszObjId) == 0)
+		{
+			// Decode and get FILETIME structure.
+			dwData = sizeof(ft);
+			lRetVal = CryptDecodeObject(ENCODING,
+				szOID_RSA_signingTime,
+				aSignerInfo->AuthAttrs.rgAttr[n].rgValue[0].pbData,
+				aSignerInfo->AuthAttrs.rgAttr[n].rgValue[0].cbData,
+				0,
+				(PVOID)&ft,
+				&dwData);
+
+			if (!lRetVal)
+			{
+				break;
+			}
+
+			// Convert to local time.
+			FileTimeToLocalFileTime(&ft, &lft);
+			FileTimeToSystemTime(&lft, aSysTime.get());
+
+			lRetVal = true;
+
+			break; // Break from for loop.
+
+		} //lstrcmp szOID_RSA_signingTime
+	} // for 
+
+	return lRetVal;
 }

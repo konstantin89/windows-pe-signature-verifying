@@ -11,8 +11,8 @@ class TimestampCertificateInfo : public CertificateInfoBase
 public:
 	TimestampCertificateInfo();
 	virtual ~TimestampCertificateInfo();
-	virtual void printCertificateInfo() override;
-
+	virtual void PrintCertificateInfo() override;
+	std::wstring GetDateAsWstr();
 
 public:
 	std::shared_ptr<SYSTEMTIME> dateOfTimeStamp;

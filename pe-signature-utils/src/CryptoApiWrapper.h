@@ -58,6 +58,10 @@ private:
 		std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo,
 		HCERTSTORE &aCertStore);
 
+	static bool getDateOfTimeStamp(
+		std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo,
+		std::shared_ptr<SYSTEMTIME> &aSysTime);
+
 };
 
 #endif

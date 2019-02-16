@@ -11,7 +11,7 @@ public:
 	CertificateInfoBase() {};
 	virtual ~CertificateInfoBase() {};
 
-	virtual void printCertificateInfo()
+	virtual void PrintCertificateInfo()
 	{
 		std::wcout << "Serial number: " << serialNumber.c_str() << std::endl;
 		std::wcout << "Issuer name: " << issuerName.c_str() << std::endl;
