@@ -237,12 +237,15 @@ std::wstring PeSignatureVerifier::byteHashIntoWstring(BYTE* aHash, size_t aHashL
 }
 
 DWORD PeSignatureVerifier::GetCertificateInfo(
-	std::wstring aPePath,
-	SignerInfo &aCertificateInfo)
+	std::wstring aFileName,
+	SignerInfoPtr &aCertInfo)
 {
+	return CryptoApiWrapper::GetCertificateInfo(aFileName, aCertInfo);
+}
 
-	UNREFERENCED_PARAMETER(aPePath);
-	UNREFERENCED_PARAMETER(aCertificateInfo);
-
-	return ERROR_SUCCESS;
+DWORD PeSignatureVerifier::GetTimestampCertificateInfo(
+	std::wstring aFileName,
+	TimeStampCertInfoPtr &aCertInfo)
+{
+	return CryptoApiWrapper::GetTimestampCertificateInfo(aFileName, aCertInfo);
 }

@@ -9,6 +9,9 @@ class TimestampCertificateInfo : public CertificateInfoBase
 {
 
 public:
+
+	using TimmeStampCertPtr = std::shared_ptr<TimestampCertificateInfo>;
+
 	TimestampCertificateInfo();
 	virtual ~TimestampCertificateInfo();
 	virtual void PrintCertificateInfo() override;

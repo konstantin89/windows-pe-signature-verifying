@@ -15,19 +15,22 @@ class CryptoApiWrapper
 {
 public:
 
+	using SignerInfoPtr = SignerInfo::SignerInfoPtr;
+	using TimeStampCertInfoPtr = TimestampCertificateInfo::TimmeStampCertPtr;
+
 	/**
 	*
 	*/
 	static DWORD GetCertificateInfo(
 		std::wstring aFileName,
-		std::shared_ptr<SignerInfo> &aCertInfo);
+		SignerInfoPtr &aCertInfo);
 
 	/**
 	*
 	*/
 	static DWORD GetTimestampCertificateInfo(
 		std::wstring aFileName,
-		std::shared_ptr <TimestampCertificateInfo> &aCertInfo);
+		TimeStampCertInfoPtr &aCertInfo);
 
 private:
 

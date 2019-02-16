@@ -9,7 +9,7 @@
 
 DWORD CryptoApiWrapper::GetCertificateInfo(
 	std::wstring aFileName,
-	std::shared_ptr<SignerInfo> &aCertInfo)
+	CryptoApiWrapper::SignerInfoPtr &aCertInfo)
 {
 	HCERTSTORE lCertStore;
 	std::shared_ptr<CMSG_SIGNER_INFO> lSignerInfo;
@@ -68,7 +68,7 @@ DWORD CryptoApiWrapper::GetCertificateInfo(
 
 DWORD CryptoApiWrapper::GetTimestampCertificateInfo(
 	std::wstring aFileName,
-	std::shared_ptr <TimestampCertificateInfo> &aCertInfo)
+	CryptoApiWrapper::TimeStampCertInfoPtr &aCertInfo)
 {
 	HCERTSTORE lCertStore;
 	std::shared_ptr<CMSG_SIGNER_INFO> lSignerInfo;
@@ -313,10 +313,12 @@ DWORD CryptoApiWrapper::getTimeStampSignerInfo(
 	std::shared_ptr<CMSG_SIGNER_INFO> &aSignerInfo,
 	std::shared_ptr<CMSG_SIGNER_INFO> &aCounterSignerInfo)
 {
-	BOOL fResult;
+	BOOL lRetValBool;
 	DWORD dwSize;
+	bool lFoundCounterSign = false;
 
 	PCMSG_SIGNER_INFO pCounterSignerInfo = NULL;
+	aCounterSignerInfo = NULL;
 
 	// Loop through unathenticated attributes for
 	// szOID_RSA_counterSign OID.
@@ -326,14 +328,14 @@ DWORD CryptoApiWrapper::getTimeStampSignerInfo(
 			szOID_RSA_counterSign) == 0)
 		{
 			// Get size of CMSG_SIGNER_INFO structure.
-			fResult = CryptDecodeObject(ENCODING,
+			lRetValBool = CryptDecodeObject(ENCODING,
 				PKCS7_SIGNER_INFO,
 				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].pbData,
 				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].cbData,
 				0,
 				NULL,
 				&dwSize);
-			if (!fResult)
+			if (!lRetValBool)
 			{
 				return GetLastError();
 			}
@@ -347,25 +349,34 @@ DWORD CryptoApiWrapper::getTimeStampSignerInfo(
 
 			// Decode and get CMSG_SIGNER_INFO structure
 			// for timestamp certificate.
-			fResult = CryptDecodeObject(ENCODING,
+			lRetValBool = CryptDecodeObject(ENCODING,
 				PKCS7_SIGNER_INFO,
 				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].pbData,
 				aSignerInfo->UnauthAttrs.rgAttr[n].rgValue[0].cbData,
 				0,
 				(PVOID)pCounterSignerInfo,
 				&dwSize);
-			if (!fResult)
+
+			if (!lRetValBool)
 			{
 				return GetLastError();
 			}
 
-			break; // Break from for loop.
+			lFoundCounterSign = true;
+
+			break;
 		}
 	}
 	
-	aCounterSignerInfo = std::shared_ptr<CMSG_SIGNER_INFO>(pCounterSignerInfo);
-
-	return ERROR_SUCCESS;
+	if (lFoundCounterSign)
+	{
+		aCounterSignerInfo = std::shared_ptr<CMSG_SIGNER_INFO>(pCounterSignerInfo);
+		return ERROR_SUCCESS;
+	}
+	else 
+	{
+		return ERROR_GEN_FAILURE;
+	}
 }
 
 DWORD CryptoApiWrapper::getCertificateSerialNumber(
