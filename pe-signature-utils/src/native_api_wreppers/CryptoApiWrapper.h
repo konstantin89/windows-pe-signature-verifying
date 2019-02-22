@@ -6,8 +6,8 @@
 #include <string>
 #include <memory>
 
-#include "SignerInfo.h"
-#include "TimestampCertificateInfo.h"
+#include ".\..\certificate_info\SignerInfo.h"
+#include ".\..\certificate_info\\TimestampCertificateInfo.h"
 
 #pragma comment(lib, "crypt32.lib")
 

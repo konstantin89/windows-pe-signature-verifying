@@ -1,7 +1,4 @@
 #include "PeSignatureVerifier.h"
-#include "CryptoApiWrapper.h"
-#include "HashApiWrapper.h"
-#include "TrustVerifyWrapper.h"
 
 DWORD PeSignatureVerifier::CheckFileSignature(std::wstring aPePath)
 {

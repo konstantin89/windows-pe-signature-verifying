@@ -5,8 +5,11 @@
 #include <iostream>
 #include <memory>
 
-#include "SignerInfo.h"
-#include "CryptoApiWrapper.h"
+#include ".\certificate_info\SignerInfo.h"
+
+#include ".\native_api_wreppers\CryptoApiWrapper.h"
+#include ".\native_api_wreppers\HashApiWrapper.h"
+#include ".\native_api_wreppers\TrustVerifyWrapper.h"
 
 class PeSignatureVerifier
 {
