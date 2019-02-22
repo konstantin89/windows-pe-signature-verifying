@@ -4,10 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "command-line-tool", "command-line-tool\command-line-tool.vcxproj", "{C008CD30-0AA2-441C-BD7A-3C3EE76FA537}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F845ACF5-073A-4D6C-978B-F32D9C3D304D} = {F845ACF5-073A-4D6C-978B-F32D9C3D304D}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pe-signature-utils", "pe-signature-utils\pe-signature-utils.vcxproj", "{F845ACF5-073A-4D6C-978B-F32D9C3D304D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{D31131D2-E4B6-4C40-8F6D-673B561AA323}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F845ACF5-073A-4D6C-978B-F32D9C3D304D} = {F845ACF5-073A-4D6C-978B-F32D9C3D304D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
