@@ -21,14 +21,18 @@
   <ItemGroup>
     <ClInclude Include="src\CertificateInfoBase.h" />
     <ClInclude Include="src\CryptoApiWrapper.h" />
+    <ClInclude Include="src\HashApiWrapper.h" />
     <ClInclude Include="src\PeSignatureVerifier.h" />
     <ClInclude Include="src\SignerInfo.h" />
     <ClInclude Include="src\TimestampCertificateInfo.h" />
+    <ClInclude Include="src\TrustVerifyWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CryptoApiWrapper.cpp" />
+    <ClCompile Include="src\HashApiWrapper.cpp" />
     <ClCompile Include="src\PeSignatureVerifier.cpp" />
     <ClCompile Include="src\TimestampCertificateInfo.cpp" />
+    <ClCompile Include="src\TrustVerifyWrapper.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

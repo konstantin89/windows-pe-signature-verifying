@@ -25,6 +25,12 @@
     <ClInclude Include="src\SignerInfo.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\TrustVerifyWrapper.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HashApiWrapper.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CryptoApiWrapper.cpp">
@@ -34,6 +40,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\TimestampCertificateInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TrustVerifyWrapper.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HashApiWrapper.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
