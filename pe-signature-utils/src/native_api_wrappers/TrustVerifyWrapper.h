@@ -1,29 +1,22 @@
-#ifndef __PE_SIGNATURE_VERIFIER_H
-#define __PE_SIGNATURE_VERIFIER_H
+#ifndef __TRUST_VERIFY_WRAPPER_H
+#define __TRUST_VERIFY_WRAPPER_H
 
 #include <windows.h>
 #include <wincrypt.h>
 #include <Softpub.h>
 #include <wintrust.h>
 #include <mscat.h>
-
 #include <string>
-#include <iostream>
-#include <memory>
 
-class PeSignatureVerifier
+class TrustVerifyWrapper
 {
 public:
 
 	/**
+	* @brief: Check if the given file is signed with valid certificate.
 	* @returns: ERROR_SUCCESS iff the PE's signature is verified, othervise returns error code.
 	*/
-	static DWORD GetSignatureStatus(std::wstring aPePath);
-
-	/**
-	* @returns: true iff the PE's signature is verified, false othervise.
-	*/
-	static bool IsSignatureVerified(std::wstring aPePath);
+	static DWORD CheckFileSignature(std::wstring aPePath);
 
 private:
 
@@ -44,7 +37,7 @@ private:
 	*
 	*/
 	static DWORD verifyFromCatalog(
-		std::wstring aPePath, 
+		std::wstring aPePath,
 		std::wstring aCatalogHashAlgo);
 
 	static DWORD verifyTrustFromCatObject(
@@ -52,8 +45,6 @@ private:
 		std::wstring aFileName,
 		std::wstring aHash);
 
-	static std::wstring byteHashIntoWstring(BYTE* aHash, size_t aHashLen);
 };
-
 
 #endif

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{7895877e-5f96-40c0-b7a4-c2258765e152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\certificate_info">
+      <UniqueIdentifier>{df01525a-ce2d-4055-b962-74b15e79ee62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\native_api_wrappers">
+      <UniqueIdentifier>{bc4b7df8-40f4-4cf4-b697-e067967d60f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\PeSignatureVerifier.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\certificate_info\CertificateInfoBase.h">
+      <Filter>src\certificate_info</Filter>
+    </ClInclude>
+    <ClInclude Include="src\certificate_info\SignerInfo.h">
+      <Filter>src\certificate_info</Filter>
+    </ClInclude>
+    <ClInclude Include="src\certificate_info\TimestampCertificateInfo.h">
+      <Filter>src\certificate_info</Filter>
+    </ClInclude>
+    <ClInclude Include="src\native_api_wrappers\CryptoApiWrapper.h">
+      <Filter>src\native_api_wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\native_api_wrappers\HashApiWrapper.h">
+      <Filter>src\native_api_wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\native_api_wrappers\TrustVerifyWrapper.h">
+      <Filter>src\native_api_wrappers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\PeSignatureVerifier.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\certificate_info\TimestampCertificateInfo.cpp">
+      <Filter>src\certificate_info</Filter>
+    </ClCompile>
+    <ClCompile Include="src\native_api_wrappers\CryptoApiWrapper.cpp">
+      <Filter>src\native_api_wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\native_api_wrappers\HashApiWrapper.cpp">
+      <Filter>src\native_api_wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\native_api_wrappers\TrustVerifyWrapper.cpp">
+      <Filter>src\native_api_wrappers</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

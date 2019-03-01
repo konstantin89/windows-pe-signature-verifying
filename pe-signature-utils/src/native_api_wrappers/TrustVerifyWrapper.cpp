@@ -1,10 +1,12 @@
-#include "PeSignatureVerifier.h"
+
+#include "TrustVerifyWrapper.h"
+#include "HashApiWrapper.h"
 
 #pragma comment(lib, "wintrust")
 
 #define SHA256 L"SHA256"
 
-DWORD PeSignatureVerifier::GetSignatureStatus(std::wstring aPePath)
+DWORD TrustVerifyWrapper::CheckFileSignature(std::wstring aPePath)
 {
 	// Try to find embeeded signature in the given PE.
 	if (verifyFromFile(aPePath) == ERROR_SUCCESS)
@@ -16,13 +18,7 @@ DWORD PeSignatureVerifier::GetSignatureStatus(std::wstring aPePath)
 	return verifyFromCatalog(aPePath, SHA256);
 }
 
-bool PeSignatureVerifier::IsSignatureVerified(std::wstring aPePath)
-{
-	return (GetSignatureStatus(aPePath) == ERROR_SUCCESS);
-}
-
-
-DWORD PeSignatureVerifier::verifyFromFile(std::wstring aPePath)
+DWORD TrustVerifyWrapper::verifyFromFile(std::wstring aPePath)
 {
 	GUID WintrustVerifyGuid = WINTRUST_ACTION_GENERIC_VERIFY_V2;
 	GUID DriverActionGuid = DRIVER_ACTION_VERIFY;
@@ -55,8 +51,8 @@ DWORD PeSignatureVerifier::verifyFromFile(std::wstring aPePath)
 	return WinVerifyTrust(NULL, &WintrustVerifyGuid, &wd);
 }
 
-DWORD PeSignatureVerifier::verifyFromCatalog(
-	std::wstring aPePath, 
+DWORD TrustVerifyWrapper::verifyFromCatalog(
+	std::wstring aPePath,
 	std::wstring aCatalogHashAlgo)
 {
 	LONG lStatus = TRUST_E_NOSIGNATURE;
@@ -73,7 +69,7 @@ DWORD PeSignatureVerifier::verifyFromCatalog(
 	{
 		return GetLastError();
 	}
-	
+
 	if (!CryptCATAdminAcquireContext2(
 		&hCatAdmin,
 		&DriverActionGuid,
@@ -88,16 +84,16 @@ DWORD PeSignatureVerifier::verifyFromCatalog(
 	dwHash = sizeof(bHash);
 	if (!CryptCATAdminCalcHashFromFileHandle2(
 		hCatAdmin,
-		hFile, 
-		&dwHash, 
-		bHash, 
+		hFile,
+		&dwHash,
+		bHash,
 		0))
 	{
 		CloseHandle(hFile);
 		return GetLastError();
 	}
 
-	auto lHashWstr = byteHashIntoWstring(bHash, dwHash);
+	auto lHashWstr = HashApiWrapper::ByteHashIntoWstring(bHash, dwHash);
 
 	/*
 	* Find the calalogue that contains hash of our file.
@@ -115,16 +111,17 @@ DWORD PeSignatureVerifier::verifyFromCatalog(
 	}
 
 	lStatus = verifyTrustFromCatObject(hCatInfo, aPePath, lHashWstr);
-		
+
 	CryptCATAdminReleaseCatalogContext(hCatAdmin, hCatInfo, 0);
 	CryptCATAdminReleaseContext(hCatAdmin, 0);
 	CloseHandle(hFile);
-	
+
 	return lStatus;
 
 }
 
-DWORD PeSignatureVerifier::verifyTrustFromCatObject(
+
+DWORD TrustVerifyWrapper::verifyTrustFromCatObject(
 	HCATINFO aCatInfo,
 	std::wstring aFileName,
 	std::wstring aHash)
@@ -160,25 +157,4 @@ DWORD PeSignatureVerifier::verifyTrustFromCatObject(
 	wd.dwUIContext = 0;
 
 	return WinVerifyTrust(NULL, &WintrustVerifyGuid, &wd);
-}
-
-std::wstring PeSignatureVerifier::byteHashIntoWstring(BYTE* aHash, size_t aHashLen)
-{
-	if (!aHash || !aHashLen)
-	{
-		return NULL;
-	}
-
-	auto lHashString = new WCHAR[aHashLen * 2 + 1];
-
-	for (DWORD dw = 0; dw < aHashLen; ++dw)
-	{
-		wsprintfW(&lHashString[dw * 2], L"%02X", aHash[dw]);
-	}
-
-	std::wstring lHashWstr(lHashString);
-
-	delete[] lHashString;
-
-	return lHashWstr;
 }
