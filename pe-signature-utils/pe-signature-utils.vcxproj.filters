@@ -11,7 +11,7 @@
     <Filter Include="src\certificate_info">
       <UniqueIdentifier>{df01525a-ce2d-4055-b962-74b15e79ee62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\native_api_wreppers">
+    <Filter Include="src\native_api_wrappers">
       <UniqueIdentifier>{bc4b7df8-40f4-4cf4-b697-e067967d60f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -28,14 +28,14 @@
     <ClInclude Include="src\certificate_info\TimestampCertificateInfo.h">
       <Filter>src\certificate_info</Filter>
     </ClInclude>
-    <ClInclude Include="src\native_api_wreppers\CryptoApiWrapper.h">
-      <Filter>src\native_api_wreppers</Filter>
+    <ClInclude Include="src\native_api_wrappers\CryptoApiWrapper.h">
+      <Filter>src\native_api_wrappers</Filter>
     </ClInclude>
-    <ClInclude Include="src\native_api_wreppers\HashApiWrapper.h">
-      <Filter>src\native_api_wreppers</Filter>
+    <ClInclude Include="src\native_api_wrappers\HashApiWrapper.h">
+      <Filter>src\native_api_wrappers</Filter>
     </ClInclude>
-    <ClInclude Include="src\native_api_wreppers\TrustVerifyWrapper.h">
-      <Filter>src\native_api_wreppers</Filter>
+    <ClInclude Include="src\native_api_wrappers\TrustVerifyWrapper.h">
+      <Filter>src\native_api_wrappers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,14 +45,14 @@
     <ClCompile Include="src\certificate_info\TimestampCertificateInfo.cpp">
       <Filter>src\certificate_info</Filter>
     </ClCompile>
-    <ClCompile Include="src\native_api_wreppers\CryptoApiWrapper.cpp">
-      <Filter>src\native_api_wreppers</Filter>
+    <ClCompile Include="src\native_api_wrappers\CryptoApiWrapper.cpp">
+      <Filter>src\native_api_wrappers</Filter>
     </ClCompile>
-    <ClCompile Include="src\native_api_wreppers\HashApiWrapper.cpp">
-      <Filter>src\native_api_wreppers</Filter>
+    <ClCompile Include="src\native_api_wrappers\HashApiWrapper.cpp">
+      <Filter>src\native_api_wrappers</Filter>
     </ClCompile>
-    <ClCompile Include="src\native_api_wreppers\TrustVerifyWrapper.cpp">
-      <Filter>src\native_api_wreppers</Filter>
+    <ClCompile Include="src\native_api_wrappers\TrustVerifyWrapper.cpp">
+      <Filter>src\native_api_wrappers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

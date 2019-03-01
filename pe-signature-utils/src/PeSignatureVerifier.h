@@ -7,9 +7,9 @@
 
 #include ".\certificate_info\SignerInfo.h"
 
-#include ".\native_api_wreppers\CryptoApiWrapper.h"
-#include ".\native_api_wreppers\HashApiWrapper.h"
-#include ".\native_api_wreppers\TrustVerifyWrapper.h"
+#include ".\native_api_wrappers\CryptoApiWrapper.h"
+#include ".\native_api_wrappers\HashApiWrapper.h"
+#include ".\native_api_wrappers\TrustVerifyWrapper.h"
 
 class PeSignatureVerifier
 {

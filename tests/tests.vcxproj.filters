@@ -8,6 +8,12 @@
     <Filter Include="src">
       <UniqueIdentifier>{664da5ef-56d7-4ca3-89d8-6a013fb9a777}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\src">
+      <UniqueIdentifier>{82dff4ba-cacb-4c0f-80b6-3810ecdcc7cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\src\native_api_wrappers">
+      <UniqueIdentifier>{baeea470-e6aa-49e8-8052-e515baddb988}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\catch.hpp">
@@ -15,8 +21,20 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\PeSignatureVerifierTests.cpp">
+    <ClCompile Include="src\Main.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\src\PeSignatureVerifierTests.cpp">
+      <Filter>src\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\src\native_api_wreppers\HashApiWrapperTests.cpp">
+      <Filter>src\src\native_api_wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\src\native_api_wreppers\TrustVerifyWrapperTests.cpp">
+      <Filter>src\src\native_api_wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\src\native_api_wreppers\CryptoApiWrapperTests.cpp">
+      <Filter>src\src\native_api_wrappers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

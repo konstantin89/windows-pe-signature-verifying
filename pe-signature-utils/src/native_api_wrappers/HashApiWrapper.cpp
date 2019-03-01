@@ -66,7 +66,7 @@ std::wstring HashApiWrapper::ByteHashIntoWstring(BYTE* aHash, size_t aHashLen)
 {
 	if (!aHash || !aHashLen)
 	{
-		return NULL;
+		return L"";
 	}
 
 	auto lHashString = new WCHAR[aHashLen * 2 + 1];

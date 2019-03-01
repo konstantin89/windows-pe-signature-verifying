@@ -1,5 +1,4 @@
-#define CATCH_CONFIG_MAIN
-#include "catch.hpp"
+#include "./../catch.hpp"
 #include "./../src/PeSignatureVerifier.h"
 
 #define WINDOWS_EXPLORER_PE_WSTR L"C:\\Windows\\explorer.exe"
